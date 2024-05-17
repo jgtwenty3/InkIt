@@ -1,4 +1,3 @@
-/** @type {import('tailwindcss').Config} */
 const defaultTheme = require('tailwindcss/defaultTheme')
 
 module.exports = {
@@ -20,8 +19,8 @@ module.exports = {
     },
     extend: {
       colors: {
-        'primary-500': '#ffffff',
-        'primary-600': '#636363,',
+        'primary-500': '#877EFF',
+        'primary-600': '#5D5FEF',
         'secondary-500': '#FFB620',
         'off-white': '#D0DFFF',
         'red': '#FF5A5A',
@@ -42,8 +41,11 @@ module.exports = {
         '420': '420px',
         '465': '465px',
       },
-      fontFamily: 
-      { 'courier': ['Courier', 'monospace'], },
+      fontFamily: {
+        
+        courier: ['Courier', 'monospace'],
+
+      },
       keyframes: {
         'accordion-down': {
           from: { height: 0 },
