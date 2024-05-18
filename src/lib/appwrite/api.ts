@@ -138,16 +138,16 @@ export async function saveUserToDB(user: {
       }
 
       export async function createClient(client: INewClient) {
-        try {
-          const uploadedFile = await uploadFile(client.file[0]);
+        // try {
+        //   const uploadedFile = await uploadFile(client.file[0]);
       
-          if (!uploadedFile) throw Error;
+        //   if (!uploadedFile) throw Error;
       
-          const fileUrl = getFilePreview(uploadedFile.$id);
-          if (!fileUrl) {
-            await deleteFile(uploadedFile.$id);
-            throw Error;
-          }
+        //   const fileUrl = getFilePreview(uploadedFile.$id);
+        //   if (!fileUrl) {
+        //     await deleteFile(uploadedFile.$id);
+        //     throw Error;
+        //   }
       
       
           const newClient = await databases.createDocument(
@@ -155,14 +155,15 @@ export async function saveUserToDB(user: {
             appwriteConfig.clientsCollectionId,
             ID.unique(),
             {
-              user: client.userId,
+              users: client.users,
               fullName: client.fullName,
               email: client.email,
               phoneNumber: client.phoneNumber,
               city: client.city,
               state: client.state,
               country: client.country,
-              imageId: uploadedFile.$id,
+              // imageId: uploadedFile.$id,
+              
               
             }
           );
@@ -170,9 +171,7 @@ export async function saveUserToDB(user: {
          
       
           return newClient;
-        } catch (error) {
-          console.log(error);
-        }
+        
       }
       export async function uploadFile(file: File) {
         try {
@@ -218,26 +217,26 @@ export async function saveUserToDB(user: {
       }
 
       export async function updateClient(client: IUpdateClient) {
-        const hasFileToUpdate = client.file.length > 0;
+        // const hasFileToUpdate = client.file.length > 0;
       
-        try {
-          let image = {
-            imageUrl: client.imageUrl,
-            imageId: client.imageId,
-          };
+        // try {
+        //   let image = {
+        //     imageUrl: client.imageUrl,
+        //     imageId: client.imageId,
+        //   };
       
-          if (hasFileToUpdate) {
-            const uploadedFile = await uploadFile(client.file[0]);
-            if (!uploadedFile) throw Error;
+        //   if (hasFileToUpdate) {
+        //     const uploadedFile = await uploadFile(client.file[0]);
+        //     if (!uploadedFile) throw Error;
       
-            const fileUrl = getFilePreview(uploadedFile.$id);
-            if (!fileUrl) {
-              await deleteFile(uploadedFile.$id);
-              throw Error;
-            }
+        //     const fileUrl = getFilePreview(uploadedFile.$id);
+        //     if (!fileUrl) {
+        //       await deleteFile(uploadedFile.$id);
+        //       throw Error;
+        //     }
       
-            image = { ...image, imageUrl: fileUrl, imageId: uploadedFile.$id };
-          }
+        //     image = { ...image, imageUrl: fileUrl, imageId: uploadedFile.$id };
+        //   }
       
       
           const updatedClient = await databases.updateDocument(
@@ -251,28 +250,28 @@ export async function saveUserToDB(user: {
               city: client.city,
               state: client.state,
               country: client.country,
-              imageId: image.imageId,
-              imageUrl: image.imageUrl,
+              // imageId: image.imageId,
+              // imageUrl: image.imageUrl,
             }
           );
       
           if (!updatedClient) {
-            if (hasFileToUpdate) {
-              await deleteFile(image.imageId);
-            }
+            // if (hasFileToUpdate) {
+            //   await deleteFile(image.imageId);
+            // }
       
             throw Error;
           }
       
-          if (hasFileToUpdate) {
-            await deleteFile(client.imageId);
-          }
+          // if (hasFileToUpdate) {
+          //   await deleteFile(client.imageId);
+          // }
       
           return updatedClient;
-        } catch (error) {
-          console.log(error);
+        // } catch (error) {
+        //   console.log(error);
         }
-      }
+      
 
       export  async function deleteClient(clientId:string, imageId: string){
         if(!clientId || !imageId) throw Error;

@@ -61,8 +61,8 @@ const ClientCard = ({ client }: ClientCardProps) => {
           <img
             src="/assets/icons/edit.svg"
             alt="edit"
-            width={20}
-            height={20}
+            width={10}
+            height={10}
           />
         </Link>
       </div>

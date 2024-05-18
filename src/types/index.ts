@@ -45,10 +45,10 @@ export type IContextType = {
       city:string;
       state:string;
       country: string;
-      userId:string;
+      users:string;
       appointmentId:string;
       messagesId:string,
-      file: File[];
+      
     
     }
 
@@ -62,8 +62,7 @@ export type IContextType = {
       country: string;
       appointmentId:string;
       messagesId:string,
-      file: File[];
-      imageId: string;
-      imageUrl: URL;
+      // imageId: string;
+      // imageUrl: URL;
       
     };

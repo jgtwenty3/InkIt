@@ -3,11 +3,14 @@ import ClientCard from '@/components/shared/ClientCard';
 import { useGetClients } from '@/lib/react.query/queriesAndMutations';
 import Loader from '@/components/shared/Loader';
 import { Models } from 'appwrite';
+import { Button } from '@/components/ui/button';
+import { Link } from 'react-router-dom';
 
 const Clients = () => {
     const { data: clients, isPending: isClientLoading } = useGetClients();
     const [searchQuery, setSearchQuery] = useState('');
     const [filteredClients, setFilteredClients] = useState<Models.Document[]>([]);
+    const [filterCriterion, setFilterCriterion] = useState('fullName');
 
     useEffect(() => {
         if (clients?.documents) {
@@ -21,25 +24,36 @@ const Clients = () => {
         } else {
             const query = searchQuery.toLowerCase();
             const filtered = clients?.documents.filter((client: Models.Document) => 
-                client.fullName.toLowerCase().includes(query) || 
-                client.city.toLowerCase().includes(query) || 
-                client.state.toLowerCase().includes(query) || 
-                client.country.toLowerCase().includes(query)
+                client[filterCriterion]?.toLowerCase().includes(query)
             );
             setFilteredClients(filtered || []);
         }
-    }, [searchQuery, clients]);
+    }, [searchQuery, filterCriterion, clients]);
 
     return (
         <div className="home-clients">
             <div className="search-container">
                 <input
                     type="text"
-                    placeholder="Search name or loc."
+                    placeholder="Search..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     className="search-input"
                 />
+                <div className="filter-container">
+                    <label htmlFor="filter-select" className="filter-label">Filter:</label>
+                    <select
+                        id="filter-select"
+                        value={filterCriterion}
+                        onChange={(e) => setFilterCriterion(e.target.value)}
+                        className="filter-select"
+                    >
+                        <option value="fullName">Name</option>
+                        <option value="city">City</option>
+                        <option value="state">State</option>
+                        <option value="country">Country</option>
+                    </select>
+                </div>
             </div>
             {isClientLoading && !clients ? (
                 <Loader />
@@ -50,6 +64,11 @@ const Clients = () => {
                             <ClientCard client={client} />
                         </li>
                     ))}
+                    <li>
+                        <Link to="/add-client">
+                            <Button className="shad-button_primary mt-10">Add Client</Button>
+                        </Link>
+                    </li>
                 </ul>
             )}
         </div>
@@ -57,3 +76,4 @@ const Clients = () => {
 };
 
 export default Clients;
+

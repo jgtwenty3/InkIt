@@ -88,7 +88,9 @@ const EditClientForm = ({client, action}: EditClientFormProps) => {
           <FormItem>
             <FormLabel className = "shad-form_label">Client Name</FormLabel>
             <FormControl>
-              <Textarea className = "shad-textarea custom-scrollbar"{...field} />
+            <Input
+              type = "text" className = "shad-input" {...field}
+              placeholder = "name"/>
             </FormControl>
             <FormMessage className = "shad-form_message"/>
           </FormItem>
@@ -169,7 +171,7 @@ const EditClientForm = ({client, action}: EditClientFormProps) => {
         </FormItem>
       )}
     />
-    <FormField
+    {/* <FormField
         control={form.control}
         name="file"
         render={({ field }) => (
@@ -184,7 +186,7 @@ const EditClientForm = ({client, action}: EditClientFormProps) => {
             <FormMessage className = "shad-form_message"/>
           </FormItem>
         )}
-      />
+      /> */}
     
     <div className = "flex gap-4 items-center justify-end">
         <Button 
@@ -200,7 +202,7 @@ const EditClientForm = ({client, action}: EditClientFormProps) => {
         disabled = {isLoadingCreate || isLoadingUpdate}
         >
           {isLoadingCreate || isLoadingUpdate && 'Loading...'}
-          {action} Submit
+          {action}
         </Button>
     </div>
     </form>

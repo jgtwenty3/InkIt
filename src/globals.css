@@ -283,6 +283,23 @@
   }
 
   .search-container {
-    @apply flex flex-col items-center w-full gap-6 mb-6;
+    @apply flex flex-row items-center w-full gap-6 mb-6;
   }
+  .filter-container {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.filter-label {
+    font-weight: bold;
+    color: white; /* Set font color to black */
+}
+
+.filter-select {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color:bg-dark-4 ;
+}
 }

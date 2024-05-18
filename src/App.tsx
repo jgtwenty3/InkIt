@@ -3,6 +3,7 @@ import SigninForm from './_auth/forms/SigninForm'
 import SignupForm from './_auth/forms/SignupForm'
 import RootLayout from './_root/RootLayout'
 import { Home } from './_root/pages'
+import AddClient from './_root/pages/AddClient'
 import AppointmentDetails from './_root/pages/AppointmentDetails'
 import Appointments from './_root/pages/Appointments'
 import ClientDetails from './_root/pages/ClientDetails'
@@ -33,6 +34,7 @@ const App = () => {
                 <Route path = "/create-appointment" element = {<CreateAppointment/>}/>
                 <Route path = "/clients" element = {<Clients/>}/>
                 <Route path = "/clients/:id" element = {<ClientDetails/>}/>
+                <Route path = "/add-client" element = {<AddClient/>}/>
                 <Route path = "/edit-clients/:id" element = {<EditClient/>}/>
                 <Route path = "/messages" element = {<Messages/>}/>
                 <Route path = "/profile/:id" element = {<Profile/>}/>
