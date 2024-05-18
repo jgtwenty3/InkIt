@@ -1,6 +1,6 @@
 import { ID , Query} from "appwrite";
-import { INewUser } from "@/types";
-import { account, appwriteConfig, avatars, databases} from "./config"
+import { INewClient, INewUser, IUpdateClient } from "@/types";
+import { account, appwriteConfig, avatars, databases, storage} from "./config"
 
 export async function createUserAccount(user:INewUser){
     try {
@@ -108,4 +108,169 @@ export async function saveUserToDB(user: {
         }
       }
 
+      export async function getClients(){
+        try{
+          const clients = await databases.listDocuments(
+            appwriteConfig.databaseId,
+            appwriteConfig.clientsCollectionId,
+            [Query.orderDesc("fullName"), Query.limit(20)]
+          );
+          if(!clients) throw Error;
+          
+          return clients;
+        } catch(error){
+          console.log(error);
+        }
+      }
+
+      export async function getClientById(clientId:string){
+        try {
+          const client = await databases.getDocument(
+            appwriteConfig.databaseId, 
+            appwriteConfig.clientsCollectionId,
+            clientId,
+          )
+          return client;
+          
+        } catch (error) {
+          console.log(error)
+        }
+      }
+
+      export async function createClient(client: INewClient) {
+        try {
+          const uploadedFile = await uploadFile(client.file[0]);
+      
+          if (!uploadedFile) throw Error;
+      
+          const fileUrl = getFilePreview(uploadedFile.$id);
+          if (!fileUrl) {
+            await deleteFile(uploadedFile.$id);
+            throw Error;
+          }
+      
+      
+          const newClient = await databases.createDocument(
+            appwriteConfig.databaseId,
+            appwriteConfig.clientsCollectionId,
+            ID.unique(),
+            {
+              user: client.userId,
+              fullName: client.fullName,
+              email: client.email,
+              phoneNumber: client.phoneNumber,
+              city: client.city,
+              state: client.state,
+              country: client.country,
+              imageId: uploadedFile.$id,
+              
+            }
+          );
+      
+         
+      
+          return newClient;
+        } catch (error) {
+          console.log(error);
+        }
+      }
+      export async function uploadFile(file: File) {
+        try {
+          const uploadedFile = await storage.createFile(
+            appwriteConfig.storageId,
+            ID.unique(),
+            file
+          );
+      
+          return uploadedFile;
+        } catch (error) {
+          console.log(error);
+        }
+      }
+      
+      export function getFilePreview(fileId: string) {
+        try {
+          const fileUrl = storage.getFilePreview(
+            appwriteConfig.storageId,
+            fileId,
+            2000,
+            2000,
+            "top",
+            100
+          );
+      
+          if (!fileUrl) throw Error;
+      
+          return fileUrl;
+        } catch (error) {
+          console.log(error);
+        }
+      }
+      
+      export async function deleteFile(fileId: string) {
+        try {
+          await storage.deleteFile(appwriteConfig.storageId, fileId);
+      
+          return { status: "ok" };
+        } catch (error) {
+          console.log(error);
+        }
+      }
+
+      export async function updateClient(client: IUpdateClient) {
+        const hasFileToUpdate = client.file.length > 0;
+      
+        try {
+          let image = {
+            imageUrl: client.imageUrl,
+            imageId: client.imageId,
+          };
+      
+          if (hasFileToUpdate) {
+            const uploadedFile = await uploadFile(client.file[0]);
+            if (!uploadedFile) throw Error;
+      
+            const fileUrl = getFilePreview(uploadedFile.$id);
+            if (!fileUrl) {
+              await deleteFile(uploadedFile.$id);
+              throw Error;
+            }
+      
+            image = { ...image, imageUrl: fileUrl, imageId: uploadedFile.$id };
+          }
+      
+      
+          const updatedClient = await databases.updateDocument(
+            appwriteConfig.databaseId,
+            appwriteConfig.clientsCollectionId,
+            client.clientId,
+            {
+              fullName: client.fullName,
+              email: client.email,
+              phoneNumber: client.phoneNumber,
+              city: client.city,
+              state: client.state,
+              country: client.country,
+              imageId: image.imageId,
+              imageUrl: image.imageUrl,
+            }
+          );
+      
+          if (!updatedClient) {
+            if (hasFileToUpdate) {
+              await deleteFile(image.imageId);
+            }
+      
+            throw Error;
+          }
+      
+          if (hasFileToUpdate) {
+            await deleteFile(client.imageId);
+          }
+      
+          return updatedClient;
+        } catch (error) {
+          console.log(error);
+        }
+      }
       

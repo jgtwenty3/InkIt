@@ -37,3 +37,33 @@ export type IContextType = {
       username: string;
       password: string;
     };
+
+    export type INewClient = {
+      fullName: string;
+      email:string;
+      phoneNumber:string;
+      city:string;
+      state:string;
+      country: string;
+      userId:string;
+      appointmentId:string;
+      messagesId:string,
+      file: File[];
+    
+    }
+
+    export type IUpdateClient = {
+      clientId: string;
+      fullName: string;
+      email:string;
+      phoneNumber:string;
+      city:string;
+      state:string;
+      country: string;
+      appointmentId:string;
+      messagesId:string,
+      file: File[];
+      imageId: string;
+      imageUrl: URL;
+      
+    };

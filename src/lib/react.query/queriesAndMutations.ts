@@ -3,8 +3,9 @@ import {
     useMutation,
     useQueryClient,
 } from '@tanstack/react-query';
-import { createUserAccount, signInAccount, signOutAccount, } from '../appwrite/api';
-import { INewUser } from '@/types';
+import { createClient, createUserAccount, getClientById, getClients, signInAccount, signOutAccount, updateClient, } from '../appwrite/api';
+import { INewClient, INewUser, IUpdateClient } from '@/types';
+import { QUERY_KEYS } from './queryKeys';
 
 
 
@@ -29,3 +30,45 @@ export const useSignOutAccount = () =>{
       mutationFn:signOutAccount
   });
 }
+
+export const useGetClients = () =>{
+  return(
+    useQuery({
+      queryKey:[QUERY_KEYS.GET_CLIENTS_],
+      queryFn: getClients,
+    })
+  )
+}
+
+export const useGetClientById = (clientId: string) => {
+  return useQuery({
+    queryKey: [QUERY_KEYS.GET_CLIENT_BY_ID, clientId],
+    queryFn: () => getClientById(clientId),
+    enabled: !!clientId
+  });
+};
+
+export const useCreateClient = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (client: INewClient) => createClient(client),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.GET_RECENT_CLIENTS],
+      });
+    },
+  });
+};
+
+export const useUpdateClient = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (client:IUpdateClient) => updateClient(client),
+    onSuccess: (data) =>{
+      queryClient.invalidateQueries({
+        queryKey :[QUERY_KEYS.GET_CLIENT_BY_ID, data?.$id]
+      })
+    }
+  });
+};
