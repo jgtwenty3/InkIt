@@ -273,4 +273,20 @@ export async function saveUserToDB(user: {
           console.log(error);
         }
       }
+
+      export  async function deleteClient(clientId:string, imageId: string){
+        if(!clientId || !imageId) throw Error;
+      
+        try {
+          await databases.deleteDocument(
+            appwriteConfig.databaseId,
+            appwriteConfig.clientsCollectionId,
+             clientId
+          )
+          return {status:'ok'}
+        } catch (error) {
+          console.log(error)
+        }
+      
+      }
       

@@ -20,7 +20,7 @@ const ClientCard = ({ client }: ClientCardProps) => {
     <div className="post-card">
       <div className="flex-between">
         <div className="flex items-center gap-3">
-          <Link to={`/clients/${client.$id}`}>
+          <Link to={`/edit-clients/${client.$id}`}>
             <img
                   src={
   
@@ -31,9 +31,11 @@ const ClientCard = ({ client }: ClientCardProps) => {
                 />
           </Link>
           <div className="flex flex-col">
-            <p className="base-medium lg:body-bold text-light-1">
-              {client.fullName}
-            </p>
+          <Link
+            to={`/clients/${client.$id}`}
+            >
+           <p>{client.fullName}</p>
+          </Link>
             <div className="flex-center gap-2 text-light-2">
               <p className="subtle-semibold lg:small-regular">
                 {client.city},

@@ -3,7 +3,7 @@ import {
     useMutation,
     useQueryClient,
 } from '@tanstack/react-query';
-import { createClient, createUserAccount, getClientById, getClients, signInAccount, signOutAccount, updateClient, } from '../appwrite/api';
+import { createClient, createUserAccount, deleteClient, getClientById, getClients, signInAccount, signOutAccount, updateClient, } from '../appwrite/api';
 import { INewClient, INewUser, IUpdateClient } from '@/types';
 import { QUERY_KEYS } from './queryKeys';
 
@@ -68,6 +68,24 @@ export const useUpdateClient = () => {
     onSuccess: (data) =>{
       queryClient.invalidateQueries({
         queryKey :[QUERY_KEYS.GET_CLIENT_BY_ID, data?.$id]
+      })
+    }
+  });
+};
+
+export const useDeleteClient = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({clientId, imageId}: {clientId:string | undefined, imageId:string}) => {
+      if (!clientId) {
+        throw new Error("postId is undefined");
+      }
+      return deleteClient(clientId, imageId);
+    },
+    onSuccess: () =>{
+      queryClient.invalidateQueries({
+        queryKey :[QUERY_KEYS.GET_RECENT_CLIENTS]
       })
     }
   });
