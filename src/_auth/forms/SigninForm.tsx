@@ -18,6 +18,9 @@ import { Input } from "@/components/ui/input";
 import { SigninValidation } from "@/lib/validation";
 import { useSignInAccount } from "@/lib/react.query/queriesAndMutations";
 import { useUserContext } from "@/context/AuthContext";
+// import { account } from "@/lib/appwrite/config";
+
+
 
 
 const SigninForm = () => {
@@ -28,6 +31,8 @@ const SigninForm = () => {
   // Query
   const { mutateAsync: signInAccount } = useSignInAccount();
 
+  
+
   const form = useForm<z.infer<typeof SigninValidation>>({
     resolver: zodResolver(SigninValidation),
     defaultValues: {
@@ -35,6 +40,21 @@ const SigninForm = () => {
       password: "",
     },
   });
+
+  // const loginWithGoogle = async () => {
+  //   try {
+  //     await account.createOAuth2Session('google');
+  //     const isLoggedIn = await checkAuthUser();
+  //     if (isLoggedIn) {
+  //       navigate("/");
+  //     } else {
+  //       toast({ title: "Login with Google failed. Please try again." });
+  //     }
+  //   } catch (error) {
+  //     console.error('Google login failed:', error);
+  //     toast({ title: "Login with Google failed. Please try again." });
+  //   }
+  // };
 
   const handleSignin = async (user: z.infer<typeof SigninValidation>) => {
     const session = await signInAccount(user);
@@ -110,6 +130,7 @@ const SigninForm = () => {
             )} */}
             "Log In"
           </Button>
+        
 
           <p className="text-small-regular text-light-2 text-center mt-2">
             Don&apos;t have an account?
@@ -121,6 +142,7 @@ const SigninForm = () => {
           </p>
         </form>
       </div>
+     
     </Form>
   );
 };

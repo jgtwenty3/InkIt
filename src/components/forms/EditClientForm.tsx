@@ -171,12 +171,12 @@ const EditClientForm = ({client, action}: EditClientFormProps) => {
         </FormItem>
       )}
     />
-    {/* <FormField
+     <FormField
         control={form.control}
         name="file"
         render={({ field }) => (
           <FormItem>
-            <FormLabel className = "shad-form_label">Client Files</FormLabel>
+            <FormLabel className = "shad-form_label">Images</FormLabel>
             <FormControl>
                 <FileUploader
                 fieldChange={field.onChange}
@@ -186,7 +186,7 @@ const EditClientForm = ({client, action}: EditClientFormProps) => {
             <FormMessage className = "shad-form_message"/>
           </FormItem>
         )}
-      /> */}
+      />
     
     <div className = "flex gap-4 items-center justify-end">
         <Button 

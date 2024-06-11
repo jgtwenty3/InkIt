@@ -3,8 +3,8 @@ import {
     useMutation,
     useQueryClient,
 } from '@tanstack/react-query';
-import { createClient, createUserAccount, deleteClient, getClientById, getClients, signInAccount, signOutAccount, updateClient, } from '../appwrite/api';
-import { INewClient, INewUser, IUpdateClient } from '@/types';
+import { createClient, createUserAccount, deleteClient, getAppointmentsById, getClientById, getClients, getCurrentUser, getUserById, signInAccount, signOutAccount, updateClient, } from '../appwrite/api';
+import { INewClient, INewUser, IUpdateClient, IUpdateUser } from '@/types';
 import { QUERY_KEYS } from './queryKeys';
 
 
@@ -14,6 +14,21 @@ export const useCreateUserAccount= () =>{
       mutationFn:(user: INewUser)=>createUserAccount(user)
   });
 }
+
+export const useUpdateUser = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: (user: IUpdateUser) => updateUser(user),
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.GET_CURRENT_USER],
+      });
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.GET_USER_BY_ID, data?.$id],
+      });
+    },
+  });
+};
 
 
 export const useSignInAccount = () =>{
@@ -40,11 +55,11 @@ export const useGetClients = () =>{
   )
 }
 
-export const useGetClientById = (clientId: string) => {
+export const useGetClientById = (userId: string) => {
   return useQuery({
-    queryKey: [QUERY_KEYS.GET_CLIENT_BY_ID, clientId],
-    queryFn: () => getClientById(clientId),
-    enabled: !!clientId
+    queryKey: [QUERY_KEYS.GET_CLIENT_BY_ID, userId],
+    queryFn: () => getClientById(userId),
+    enabled: !!userId
   });
 };
 
@@ -88,5 +103,27 @@ export const useDeleteClient = () => {
         queryKey :[QUERY_KEYS.GET_RECENT_CLIENTS]
       })
     }
+  });
+};
+
+export const useGetCurrentUser =() =>{
+  return useQuery({
+    queryKey: [QUERY_KEYS.GET_CURRENT_USER],
+    queryFn: getCurrentUser
+  })
+}
+export const useGetAppointmentsById = (userId: string) => {
+  return useQuery({
+    queryKey: [QUERY_KEYS.GET_CLIENT_BY_ID, userId],
+    queryFn: () => getAppointmentsById(userId),
+    enabled: !!userId
+  });
+};
+
+export const useGetUserById = (userId: string) => {
+  return useQuery({
+    queryKey: [QUERY_KEYS.GET_USER_BY_ID, userId],
+    queryFn: () => getUserById(userId),
+    enabled: !!userId,
   });
 };

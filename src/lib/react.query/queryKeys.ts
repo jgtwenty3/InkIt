@@ -9,5 +9,6 @@ export enum QUERY_KEYS {
     GET_CLIENTS_= "getClients",
     GET_RECENT_CLIENTS = "getRecentClients",
     GET_CLIENT_BY_ID = "getClientById",
+    GET_CLIENTS_BY_CURRENT_USER = "getClientsByCurrentUser"
   
   }

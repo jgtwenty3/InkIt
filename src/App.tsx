@@ -6,6 +6,7 @@ import { Home } from './_root/pages'
 import AddClient from './_root/pages/AddClient'
 import AppointmentDetails from './_root/pages/AppointmentDetails'
 import Appointments from './_root/pages/Appointments'
+
 import ClientDetails from './_root/pages/ClientDetails'
 import Clients from './_root/pages/Clients'
 import CreateAppointment from './_root/pages/CreateAppointment'
@@ -34,7 +35,7 @@ const App = () => {
                 <Route path = "/create-appointment" element = {<CreateAppointment/>}/>
                 <Route path = "/clients" element = {<Clients/>}/>
                 <Route path = "/clients/:id" element = {<ClientDetails/>}/>
-                <Route path = "/add-client" element = {<AddClient/>}/>
+                <Route path = "/clients/add-client" element = {<AddClient/>}/>
                 <Route path = "/edit-clients/:id" element = {<EditClient/>}/>
                 <Route path = "/messages" element = {<Messages/>}/>
                 <Route path = "/profile/:id" element = {<Profile/>}/>

@@ -302,4 +302,51 @@
     border-radius: 4px;
     background-color:bg-dark-4 ;
 }
+.fc {
+  @apply bg-dark-1 text-light-1;
+  height: auto;
+}
+
+.fc-toolbar {
+  @apply flex justify-between items-center py-2 px-4 bg-dark-2 border-b border-dark-4;
+}
+
+.fc-button {
+  @apply bg-dark-3 text-light-1 border-none px-4 py-2 rounded-md transition;
+}
+
+.fc-button:hover {
+  @apply bg-dark-4 text-white;
+}
+
+.fc-button-primary {
+  @apply bg-blue-500 text-white;
+}
+
+.fc-button-primary:hover {
+  @apply bg-blue-600;
+}
+
+.fc-event {
+  @apply bg-blue-500 text-white border-none rounded;
+}
+
+.fc-daygrid-day {
+  @apply bg-dark-2 border border-dark-4;
+}
+
+.fc-daygrid-day-number {
+  @apply text-light-1;
+}
+
+.fc-daygrid-event {
+  @apply bg-blue-500 text-white rounded;
+}
+
+.fc-col-header-cell {
+  @apply bg-dark-2 text-light-1 border-b border-dark-4;
+}
+
+
+
 }

@@ -48,7 +48,7 @@ const ClientDetails = () => {
             <div className ='flex-center gap-4'>
               <Link to = {`/edit-clients/${client?.$id}`} 
               >
-              <img src = "/assets/icons/edit.svg" width = {24} height = {24} alt = "edit"/>
+              <img src = "/assets/icons/edit.png" width = {24} height = {24} alt = "edit"/>
               </Link>
               <Button
                   onClick={handleDeleteClient}

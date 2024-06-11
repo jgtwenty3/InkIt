@@ -1,5 +1,5 @@
 import { ID , Query} from "appwrite";
-import { INewClient, INewUser, IUpdateClient } from "@/types";
+import { INewClient, INewUser, IUpdateClient, IUpdateUser } from "@/types";
 import { account, appwriteConfig, avatars, databases, storage} from "./config"
 
 export async function createUserAccount(user:INewUser){
@@ -52,6 +52,25 @@ export async function saveUserToDB(user: {
     } catch (error) {
       console.log(error);
     }
+  }
+  
+  export async function updateUser(user: IUpdateUser){
+    const updatedUser = await databases.updateDocument(
+      appwriteConfig.databaseId,
+      appwriteConfig.userCollectionId,
+      user.userId,
+      {
+        name: user.name,
+        bio: user.bio,
+        email: user.email,
+        phoneNumber: user.phoneNumber,
+      }
+    );
+
+    if(!updatedUser){
+      throw Error;
+    }
+    return updatedUser;
   }
 
   export async function signInAccount(user:{
@@ -155,7 +174,7 @@ export async function saveUserToDB(user: {
             appwriteConfig.clientsCollectionId,
             ID.unique(),
             {
-              users: client.users,
+              user: client.userId,
               fullName: client.fullName,
               email: client.email,
               phoneNumber: client.phoneNumber,
@@ -250,6 +269,7 @@ export async function saveUserToDB(user: {
               city: client.city,
               state: client.state,
               country: client.country,
+              user:client.userId
               // imageId: image.imageId,
               // imageUrl: image.imageUrl,
             }
@@ -288,4 +308,37 @@ export async function saveUserToDB(user: {
         }
       
       }
+
+      export async function getAppointmentsById(userId:string){
+        try {
+          const appointment = await databases.getDocument(
+            appwriteConfig.databaseId, 
+            appwriteConfig.appointmentsCollectionId,
+            userId,
+          )
+          return appointment;
+          
+        } catch (error) {
+          console.log(error)
+        }
+      }
+
+      export async function getUserById(userId: string) {
+        try {
+          const user = await databases.getDocument(
+            appwriteConfig.databaseId,
+            appwriteConfig.userCollectionId,
+            userId
+          );
+      
+          if (!user) throw Error;
+      
+          return user;
+        } catch (error) {
+          console.log(error);
+        }
+      }
+      
+
+      
       

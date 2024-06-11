@@ -17,6 +17,8 @@ export type IContextType = {
       userId: string;
       name: string;
       bio: string;
+      email:string;
+      phoneNumber: string,
       imageId: string;
       imageUrl: URL | string;
       file: File[];
@@ -47,7 +49,8 @@ export type IContextType = {
       country: string;
       users:string;
       appointmentId:string;
-      messagesId:string,
+      messagesId:string
+      userId: string
       
     
     }
@@ -62,6 +65,7 @@ export type IContextType = {
       country: string;
       appointmentId:string;
       messagesId:string,
+      userId:string,
       // imageId: string;
       // imageUrl: URL;
       
